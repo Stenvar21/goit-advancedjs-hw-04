@@ -1,0 +1,25 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3   # оновив до v3
+
+      - name: Install and build 🔧
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages       # гілка для GitHub Pages
+          folder: dist           # папка, яку пушимо
+          token: ${{ secrets.GITHUB_TOKEN }}  # забезпечує права на пуш
+
